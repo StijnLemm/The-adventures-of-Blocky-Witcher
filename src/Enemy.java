@@ -31,7 +31,7 @@ public class Enemy extends Npc {
 
     public void update(){
         if(this.hasTarget){
-
+            
         }
     }
 
