@@ -1,11 +1,10 @@
 package GameObjects.Map;
 
+import Util.Coordinate;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-
 import javax.imageio.ImageIO;
 import javax.json.*;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,10 +20,12 @@ public class MapLoader {
 
     private JsonObject jsonObject;
 
+    private DistanceMapController distanceMapController;
+
     private ArrayList<Image> tiles;
     private ArrayList<TileLayer> layers;
 
-    public MapLoader(String jsonFileLocation) {
+    public MapLoader(String jsonFileLocation, String nameOfLayerArray, String nameOfTileSetArray) {
 
         this.layers = new ArrayList<>();
         this.tiles = new ArrayList<>();
@@ -36,13 +37,20 @@ public class MapLoader {
         this.tileWidth = this.jsonObject.getInt("tilewidth");
         this.mapWidth = this.jsonObject.getInt("width");
         this.mapHeight = this.jsonObject.getInt("height");
+
+        this.loadTiles(nameOfTileSetArray);
+        this.loadLayers(nameOfLayerArray);
+
+        this.initDistanceMapController();
+
+        this.printBooleanArray(distanceMapController.getDistanceMap(new Coordinate(8, 6)).getMap());
     }
 
     /**
      * this method will load each layer into an layer array.
      * @param arrayName
      */
-    public void loadLayers(String arrayName){
+    private void loadLayers(String arrayName){
         for(int i = 0 ; i < this.jsonObject.getJsonArray(arrayName).size(); i++)
         {
             JsonObject layer = this.jsonObject.getJsonArray(arrayName).getJsonObject(i);
@@ -60,7 +68,7 @@ public class MapLoader {
      * This method will load the texture png, after that it will slice it up to pieces with the designated size,
      * At last it will add all of the sliced pieces into an array.
      */
-    public void loadTiles(String arrayName) {
+    private void loadTiles(String arrayName) {
 
         for (int i = 0; i < this.jsonObject.getJsonArray(arrayName).size(); i++) {
 
@@ -85,6 +93,28 @@ public class MapLoader {
 
             }
         }
+    }
+
+    /**
+     * this method will look for the collision layer in the layer array, then it will make a new controller that will use
+     * this collisionLayer to make a map where the tiles walkable are true and the tiles like walls that collide are false.
+     */
+    private void initDistanceMapController(){
+
+        ArrayList<Integer> collisionLayer = null;
+
+        for(TileLayer tileLayer: layers){
+            if(!tileLayer.getName().equals("Collision")){
+                collisionLayer = tileLayer.getTiles();
+            }
+        }
+
+        if(collisionLayer == null){
+            return;
+        }
+
+        this.distanceMapController = new DistanceMapController(this.mapWidth, this.mapHeight, collisionLayer);
+
     }
 
     /**
@@ -131,5 +161,26 @@ public class MapLoader {
 
     public ArrayList<TileLayer> getLayers() {
         return layers;
+    }
+
+    //print function for debugging
+    private void printBooleanArray(ArrayList<ArrayList<Integer>> temp){
+
+        for (int i = 0; i < temp.size(); i++) {
+            System.out.println(temp.get(i).size());
+        }
+
+        for (ArrayList<Integer> tempList : temp) {
+//            for(Integer b: tempList){
+//                if(b == null){
+//                    System.out.print("#");
+//                } else{
+//                    System.out.print(b);
+//                }
+//            }
+//            System.out.println();
+
+            System.out.println(tempList);
+        }
     }
 }

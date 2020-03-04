@@ -17,7 +17,7 @@ public class GameMap {
     private int tileHeight;
     private int mapWidth;
     private int mapHeight;
-    private int SCALE;
+    private double SCALE;
 
     private ImageView crossHair;
 
@@ -28,7 +28,6 @@ public class GameMap {
     private MapLoader mapLoader;
 
     private ArrayList<Shape> collisionLayerTiles;
-
     private ArrayList<Image> tiles;
     private ArrayList<TileLayer> layers;
 
@@ -39,7 +38,7 @@ public class GameMap {
         this.tiles = new ArrayList<>();
         this.layers = new ArrayList<>();
 
-        this.mapLoader = new MapLoader(filePathJson);
+        this.mapLoader = new MapLoader(filePathJson, "layers", "tilesets");
 
         this.gameEngine = gameEngine;
 
@@ -52,11 +51,6 @@ public class GameMap {
         this.tileWidth = this.mapLoader.getTileWidth();
         this.mapWidth = this.mapLoader.getMapWidth();
         this.mapHeight = this.mapLoader.getMapHeight();
-
-        // At last we add all of the tiles to the tiles Array.
-        // At last we add all of the tiles to the tiles Array.
-        this.mapLoader.loadTiles("tilesets");
-        this.mapLoader.loadLayers("layers");
 
         this.tiles = this.mapLoader.getTiles();
         this.layers = this.mapLoader.getLayers();
@@ -181,7 +175,7 @@ public class GameMap {
         int tempX = 0;
         int tempY = 0;
 
-        for (int i = 0; i <= this.mapWidth; i++) {
+        for (int i = 0; i <= this.mapWidth - 1; i++) {
 
             if ((i * this.tileWidth) <= x && (i * this.tileWidth) + this.tileWidth >= x) {
                 tempX = i;
@@ -190,7 +184,7 @@ public class GameMap {
 
         }
 
-        for (int i = 0; i <= this.mapWidth; i++) {
+        for (int i = 0; i <= this.mapHeight - 1; i++) {
 
             if ((i * this.tileHeight) <= y && (i * this.tileHeight) + this.tileHeight >= y) {
                 tempY = i;
@@ -207,7 +201,11 @@ public class GameMap {
 
     }
 
-    public void setSCALE(int SCALE) {
+    public MapLoader getMapLoader() {
+        return mapLoader;
+    }
+
+    public void setSCALE(double SCALE) {
 
         this.SCALE = SCALE;
 

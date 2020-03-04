@@ -34,9 +34,9 @@ public class GameEngine {
 
     private CrossHair crossHair;
 
-    private ObjectCollisionController objectCollisionController;
-
     private GameRenderer gameRenderer;
+
+    private ObjectCollisionController objectCollisionController;
 
     private DrawingController drawingController;
 
@@ -44,6 +44,8 @@ public class GameEngine {
     public GameEngine(Stage window) {
 
         this.window = window;
+
+        this.window.setTitle("The Blocky-Witcher!");
 
         this.init();
 
@@ -63,7 +65,6 @@ public class GameEngine {
         this.drawingController = new DrawingController(this.drawSpace, this.gameMap.getTiles());
 
         this.playerInputController = new PlayerInputController(this.window);
-
 
         this.objectCollisionController = new ObjectCollisionController(this.gameMap.getCollisionLayerTiles());
 
@@ -104,7 +105,7 @@ public class GameEngine {
 
     private void addEnemy(int indexOfAvatar, Coordinate spawnLocation) {
 
-        
+
 
     }
 
