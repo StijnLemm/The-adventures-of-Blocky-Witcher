@@ -2,27 +2,27 @@ package Util;
 
 public class Coordinate {
 
-    private double valueX;
-    private double valueY;
+    private int valueX;
+    private int valueY;
 
-    public Coordinate(double valueX, double valueY) {
+    public Coordinate(int valueX, int valueY) {
         this.valueX = valueX;
         this.valueY = valueY;
     }
 
-    public double getValueX() {
+    public int getValueX() {
         return valueX;
     }
 
-    public double getValueY() {
+    public int getValueY() {
         return valueY;
     }
 
-    public void setValueX(double valueX) {
+    public void setValueX(int valueX) {
         this.valueX = valueX;
     }
 
-    public void setValueY(double valueY) {
+    public void setValueY(int valueY) {
         this.valueY = valueY;
     }
 

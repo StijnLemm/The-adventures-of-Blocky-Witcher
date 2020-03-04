@@ -1,5 +1,6 @@
 package GameObjects;
 
+import GameControllers.GameEngine;
 import GameControllers.ObjectCollisionController;
 import Util.Coordinate;
 import javafx.scene.image.ImageView;
@@ -12,21 +13,19 @@ public class Enemy extends Npc {
     private Coordinate location;
     private Coordinate target;
 
-    private HealthBar healthBar;
-
     private Rectangle hitBox;
 
     private ObjectCollisionController objectCollisionController;
 
     private boolean hasTarget;
 
-    public Enemy(ImageView avatar, Coordinate location, ObjectCollisionController objectCollisionController, HealthBar healthBar) {
+    public Enemy(ImageView avatar, Coordinate location, GameEngine gameEngine) {
 
         this.avatar = avatar;
 
         this.location = location;
 
-        this.healthBar = healthBar;
+        this.objectCollisionController = gameEngine.getObjectCollisionController();
 
         this.hitBox = new Rectangle(avatar.getImage().getWidth(), avatar.getImage().getHeight());
 
@@ -55,8 +54,7 @@ public class Enemy extends Npc {
         this.hasTarget = true;
     }
 
-    @Override
-    public void addX(double amount) {
+    public void addX(int amount) {
         this.location.setValueX(this.location.getValueX() + amount);
 
         this.setLayout();
@@ -66,8 +64,7 @@ public class Enemy extends Npc {
         }
     }
 
-    @Override
-    public void addY(double amount) {
+    public void addY(int amount) {
         this.location.setValueY(this.location.getValueY() + amount);
 
         this.setLayout();

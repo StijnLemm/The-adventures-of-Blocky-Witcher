@@ -1,12 +1,17 @@
-package Util;
+package GameControllers;
 
+import Util.Coordinate;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class KeyController {
+public class PlayerInputController {
 
     private Stage window;
+
+    private Coordinate mouseLocation;
 
     private boolean dKeyPressed;
     private boolean sKeyPressed;
@@ -14,7 +19,10 @@ public class KeyController {
     private boolean wKeyPressed;
     private boolean spaceKeyPressed;
 
-    public KeyController(Stage window) {
+    public PlayerInputController(Stage window) {
+
+
+        this.mouseLocation = new Coordinate(0, 0);
 
         this.dKeyPressed = false;
         this.sKeyPressed = false;
@@ -24,10 +32,10 @@ public class KeyController {
 
         this.window = window;
 
-        this.init();
+        this.addEventHandlers();
     }
 
-    public void init(){
+    public void addEventHandlers() {
         this.window.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -73,13 +81,23 @@ public class KeyController {
                 }
             }
         });
+
+        this.window.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+                    PlayerInputController.this.mouseLocation.setValueX((int) event.getX());
+                    PlayerInputController.this.mouseLocation.setValueY((int) event.getY());
+
+            }
+        });
     }
 
     public boolean isdKeyPressed() {
         return dKeyPressed;
     }
 
-    public void setdKeyPressed(boolean dKeyPressed) {
+    private void setdKeyPressed(boolean dKeyPressed) {
         this.dKeyPressed = dKeyPressed;
     }
 
@@ -87,7 +105,7 @@ public class KeyController {
         return sKeyPressed;
     }
 
-    public void setsKeyPressed(boolean sKeyPressed) {
+    private void setsKeyPressed(boolean sKeyPressed) {
         this.sKeyPressed = sKeyPressed;
     }
 
@@ -95,7 +113,7 @@ public class KeyController {
         return aKeyPressed;
     }
 
-    public void setaKeyPressed(boolean aKeyPressed) {
+    private void setaKeyPressed(boolean aKeyPressed) {
         this.aKeyPressed = aKeyPressed;
     }
 
@@ -103,7 +121,7 @@ public class KeyController {
         return wKeyPressed;
     }
 
-    public void setwKeyPressed(boolean wKeyPressed) {
+    private void setwKeyPressed(boolean wKeyPressed) {
         this.wKeyPressed = wKeyPressed;
     }
 
@@ -111,7 +129,11 @@ public class KeyController {
         return spaceKeyPressed;
     }
 
-    public void setSpaceKeyPressed(boolean spaceKeyPressed) {
+    private void setSpaceKeyPressed(boolean spaceKeyPressed) {
         this.spaceKeyPressed = spaceKeyPressed;
+    }
+
+    public Coordinate getMouseLocation() {
+        return mouseLocation;
     }
 }

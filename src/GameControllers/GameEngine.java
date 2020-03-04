@@ -6,11 +6,11 @@ import GameObjects.HealthBar;
 import GameObjects.Player;
 import Interfaces.Updatable;
 import Util.Coordinate;
-import Util.KeyController;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 public class GameEngine {
@@ -26,7 +26,7 @@ public class GameEngine {
 
     private GameMap gameMap;
 
-    private KeyController keyController;
+    private PlayerInputController playerInputController;
 
     private ArrayList<Updatable> dynamicEntities;
 
@@ -36,14 +36,21 @@ public class GameEngine {
 
     private ObjectCollisionController objectCollisionController;
 
-    private  GameRenderer gameRenderer;
+    private GameRenderer gameRenderer;
+
+    private DrawingController drawingController;
 
 
     public GameEngine(Stage window) {
 
         this.window = window;
 
-        //--------------------------------------------------------------------------------------------------------------
+        this.init();
+
+    }
+
+    public void init() {
+
 
         this.dynamicEntities = new ArrayList<>();
 
@@ -53,27 +60,18 @@ public class GameEngine {
 
         this.gameMap = new GameMap("/map_level_1_V2.0.json", this.drawSpace, 1, this);
 
-        this.crossHair = new CrossHair(new ImageView(this.gameMap.getTiles().get(270)));
+        this.drawingController = new DrawingController(this.drawSpace, this.gameMap.getTiles());
 
-        this.keyController = new KeyController(this.window);
+        this.playerInputController = new PlayerInputController(this.window);
 
-        //--------------------------------------------------------------------------------------------------------------
-
-        this.init();
-    }
-
-    /**
-     * The init method makes the animation timer and has the handler.
-     */
-    public void init() {
-
-        this.dynamicEntities.add(this.crossHair);
-
-        this.drawMap();
 
         this.objectCollisionController = new ObjectCollisionController(this.gameMap.getCollisionLayerTiles());
 
-        this.drawSpace.getChildren().add(this.crossHair.getCrossHairImage());
+        this.drawMap();
+
+        this.crossHair = new CrossHair(this);
+
+        this.dynamicEntities.add(this.crossHair);
 
         this.spawnPlayer();
 
@@ -100,25 +98,31 @@ public class GameEngine {
 
     public void spawnPlayer() {
 
-        ImageView player = new ImageView(this.gameMap.getTiles().get(199));
-
-        this.drawSpace.getChildren().add(player);
-
-        this.dynamicEntities.add(new Player(
-                player,
-                this.gameMap.getTileLocation(2, 6),
-                this.keyController,
-                this.objectCollisionController,
-                this.getHealthBar(this.gameMap.getTileLocation(0,0), 250, 255)
-        ));
+        this.dynamicEntities.add(new Player("Player", this.gameMap.getTileLocation(2, 6), this));
 
     }
 
-    private void addEnemy(int indexOfAvatar, Coordinate spawnLocation){
+    private void addEnemy(int indexOfAvatar, Coordinate spawnLocation) {
 
     }
 
-    private HealthBar getHealthBar(Coordinate coordinate, int beginTile, int endTile){
+    public DrawingController getDrawingController() {
+        return drawingController;
+    }
+
+    public GameMap getGameMap() {
+        return this.gameMap;
+    }
+
+    public PlayerInputController getPlayerInputController() {
+        return playerInputController;
+    }
+
+    public ObjectCollisionController getObjectCollisionController() {
+        return objectCollisionController;
+    }
+
+    public HealthBar getPlayerHealthBar(Coordinate coordinate, int beginTile, int endTile) {
         ArrayList<Image> hearts = new ArrayList<>();
 
         for (int i = beginTile; i < endTile; i++) {
@@ -132,13 +136,6 @@ public class GameEngine {
         this.drawSpace.getChildren().add(healthBar.getHealthBarView());
 
         return healthBar;
-    }
-
-    public void setCrossHair(double x, double y) {
-
-        this.crossHair.setY(y);
-        this.crossHair.setX(x);
-
     }
 
     /**

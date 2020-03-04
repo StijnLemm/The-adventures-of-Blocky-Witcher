@@ -57,6 +57,10 @@ public class HealthBar {
         this.healthBarView.setImage(this.heart.get(this.maxAmountOfLives - this.amountOfLives));
     }
 
+    public int getAmountOfLives() {
+        return amountOfLives;
+    }
+
     public ImageView getHealthBarView() {
         return healthBarView;
     }

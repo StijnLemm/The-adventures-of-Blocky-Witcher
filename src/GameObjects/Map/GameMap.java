@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+
 import java.util.ArrayList;
 
 public class GameMap {
@@ -25,7 +27,7 @@ public class GameMap {
 
     private MapLoader mapLoader;
 
-    private ArrayList<Rectangle> collisionLayerTiles;
+    private ArrayList<Shape> collisionLayerTiles;
 
     private ArrayList<Image> tiles;
     private ArrayList<TileLayer> layers;
@@ -146,9 +148,9 @@ public class GameMap {
 
             ImageView imageView = new ImageView(tempImage);
 
-            imageView.setOnMouseEntered((event -> {
-                this.gameEngine.setCrossHair(imageView.getX(), imageView.getY());
-            }));
+//            imageView.setOnMouseEntered((event -> {
+//                this.gameEngine.setCrossHair((int)imageView.getX(), (int)imageView.getY());
+//            })); TODO
 
             imageView.setFitHeight(this.tileHeight * this.SCALE);
             imageView.setFitWidth(this.tileWidth * this.SCALE);
@@ -162,7 +164,7 @@ public class GameMap {
         }
     }
 
-    public ArrayList<Rectangle> getCollisionLayerTiles() {
+    public ArrayList<Shape> getCollisionLayerTiles() {
 
         return collisionLayerTiles;
 
@@ -172,6 +174,27 @@ public class GameMap {
 
         return new Coordinate(tileX * this.tileWidth, tileY * this.tileHeight);
 
+    }
+
+    public Coordinate convertToTileLocation(int x, int y) {
+
+        int tempX = 0;
+        int tempY = 0;
+
+        boolean xFound = false;
+        boolean yFound = false;
+
+        for (int i = 0; i <= this.mapWidth || (xFound && yFound); i++) {
+            if ((i * this.tileWidth) < x && (i * this.tileWidth) + 32 > x) {
+                tempX = i;
+                xFound = true;
+            }
+            if ((i * this.tileWidth) < y && (i * this.tileWidth) + 32 > y) {
+                tempY = i;
+                yFound = true;
+            }
+        }
+        return new Coordinate(tempX, tempY);
     }
 
     public ArrayList<Image> getTiles() {
