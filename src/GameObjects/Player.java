@@ -1,9 +1,16 @@
+package GameObjects;
+
+import GameControllers.ObjectCollisionController;
+import GameObjects.HealthBar;
+import Interfaces.Updatable;
+import Util.Coordinate;
+import Util.KeyController;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-
-import java.util.ArrayList;
 
 public class Player extends Npc implements Updatable {
 
@@ -13,7 +20,9 @@ public class Player extends Npc implements Updatable {
 
     private HealthBar healthBar;
 
-    private Rectangle hitBox;
+    private Circle hitBox;
+
+    private Rectangle2D crop;
 
     private ObjectCollisionController objectCollisionController;
 
@@ -21,7 +30,7 @@ public class Player extends Npc implements Updatable {
 
     public Player(ImageView avatar, Coordinate location, KeyController keyController, ObjectCollisionController objectCollisionController, HealthBar healthBar) {
 
-        this.speed = 5;
+        this.speed = 6;
 
         this.healthBar = healthBar;
 
@@ -30,7 +39,9 @@ public class Player extends Npc implements Updatable {
         this.location = location;
         this.keyController = keyController;
 
-        this.hitBox = new Rectangle(avatar.getImage().getWidth() - 10, avatar.getImage().getHeight() - 10);
+        this.hitBox = new Circle((avatar.getImage().getWidth() / 2) - 7);
+
+        this.crop = new Rectangle2D(0,2, this.avatar.getImage().getWidth(), this.avatar.getImage().getHeight());
 
         this.objectCollisionController = objectCollisionController;
     }
@@ -38,11 +49,10 @@ public class Player extends Npc implements Updatable {
     public void update() {
 
 
-
         this.movementUpdate();
     }
 
-    private void movementUpdate(){
+    private void movementUpdate() {
         if (this.keyController.isaKeyPressed() && this.keyController.iswKeyPressed()) {
             this.addX(-this.speed + 2);
             this.addY(-this.speed + 2);
@@ -94,11 +104,17 @@ public class Player extends Npc implements Updatable {
         this.setLayout();
     }
 
-    private void setLayout(){
+    private void setLayout() {
+
+        if(location.getValueX() % 8 == 0){
+            this.avatar.setViewport(this.crop);
+        } else{
+            this.avatar.setViewport(new Rectangle2D(0,0, this.avatar.getImage().getWidth(), this.avatar.getImage().getHeight()));
+        }
 
         //System.out.println("x: " + this.location.getValueX() + " y: " + this.location.getValueY());
-        this.hitBox.setX(this.location.getValueX() + 5);
-        this.hitBox.setY(this.location.getValueY() + 5);
+        this.hitBox.setCenterX(this.location.getValueX() + this.hitBox.getRadius() + 7);
+        this.hitBox.setCenterY(this.location.getValueY() + this.hitBox.getRadius() + 7);
 
         this.avatar.setLayoutX(this.location.getValueX());
         this.avatar.setLayoutY(this.location.getValueY());
@@ -111,7 +127,7 @@ public class Player extends Npc implements Updatable {
 
         this.setLayout();
 
-        if(objectCollisionController.isColliding(this.hitBox)){
+        if (objectCollisionController.isColliding(this.hitBox)) {
             this.addX(-(amount));
         }
 
@@ -123,7 +139,7 @@ public class Player extends Npc implements Updatable {
 
         this.setLayout();
 
-        if(objectCollisionController.isColliding(this.hitBox)) {
+        if (objectCollisionController.isColliding(this.hitBox)) {
             this.addY(-(amount));
         }
 

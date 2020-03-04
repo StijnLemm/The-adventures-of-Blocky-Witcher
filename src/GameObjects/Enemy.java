@@ -1,3 +1,7 @@
+package GameObjects;
+
+import GameControllers.ObjectCollisionController;
+import Util.Coordinate;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 
@@ -31,7 +35,7 @@ public class Enemy extends Npc {
 
     public void update(){
         if(this.hasTarget){
-            
+
         }
     }
 

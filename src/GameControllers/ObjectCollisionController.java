@@ -1,14 +1,17 @@
-import javafx.scene.image.ImageView;
+package GameControllers;
+
+import Util.Coordinate;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 
 public class ObjectCollisionController {
 
-    private ArrayList<ImageView> collisionObjects;
+    private ArrayList<Rectangle> collisionObjects;
 
     private Coordinate locationOfCollision;
 
-    public ObjectCollisionController(ArrayList<ImageView> collisionObjects) {
+    public ObjectCollisionController(ArrayList<Rectangle> collisionObjects) {
 
         this.collisionObjects = collisionObjects;
     }
@@ -16,11 +19,11 @@ public class ObjectCollisionController {
     public boolean isColliding(Shape hitBox) {
 
 
-        for (ImageView object : collisionObjects) {
+        for (Shape object : collisionObjects) {
 
-            if (object.getBoundsInParent().intersects(hitBox.getBoundsInParent())) {
+            if (object.getBoundsInLocal().intersects(hitBox.getBoundsInParent())) {
 
-                this.locationOfCollision = new Coordinate(object.getX(), object.getY());
+                this.locationOfCollision = new Coordinate(object.getLayoutX(), object.getLayoutY());
 
                 return true;
 

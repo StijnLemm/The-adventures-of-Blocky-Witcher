@@ -1,3 +1,7 @@
+package GameObjects;
+
+import Interfaces.Updatable;
+import Util.Coordinate;
 import javafx.scene.image.ImageView;
 
 public class CrossHair implements Updatable {

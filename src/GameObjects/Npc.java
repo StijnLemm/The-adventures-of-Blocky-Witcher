@@ -1,3 +1,5 @@
+package GameObjects;
+
 public abstract class Npc {
 
     public abstract void addX(double amount);
