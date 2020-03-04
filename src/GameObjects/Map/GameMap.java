@@ -181,18 +181,22 @@ public class GameMap {
         int tempX = 0;
         int tempY = 0;
 
-        boolean xFound = false;
-        boolean yFound = false;
+        for (int i = 0; i <= this.mapWidth; i++) {
 
-        for (int i = 0; i <= this.mapWidth || (xFound && yFound); i++) {
-            if ((i * this.tileWidth) < x && (i * this.tileWidth) + 32 > x) {
+            if ((i * this.tileWidth) <= x && (i * this.tileWidth) + this.tileWidth >= x) {
                 tempX = i;
-                xFound = true;
+                break;
             }
-            if ((i * this.tileWidth) < y && (i * this.tileWidth) + 32 > y) {
+
+        }
+
+        for (int i = 0; i <= this.mapWidth; i++) {
+
+            if ((i * this.tileHeight) <= y && (i * this.tileHeight) + this.tileHeight >= y) {
                 tempY = i;
-                yFound = true;
+                break;
             }
+
         }
         return new Coordinate(tempX, tempY);
     }

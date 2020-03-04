@@ -104,6 +104,8 @@ public class GameEngine {
 
     private void addEnemy(int indexOfAvatar, Coordinate spawnLocation) {
 
+        
+
     }
 
     public DrawingController getDrawingController() {
@@ -139,7 +141,7 @@ public class GameEngine {
     }
 
     /**
-     * To display the simulation you can get the draw space here, this space will be updated 60 fps.
+     * To display the simulation you can get the draw space here, this space will be updated (60 times each second).
      *
      * @return An Group with all of the entities and locations.
      */

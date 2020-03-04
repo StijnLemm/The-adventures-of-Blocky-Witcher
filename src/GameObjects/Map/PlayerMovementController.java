@@ -97,7 +97,7 @@ public class PlayerMovementController {
 
         this.location.setValueX(this.location.getValueX() + amount);
 
-        this.drawingController.addXForOnScreenObject(this.playerName, (int)amount);
+        this.drawingController.addXForOnScreenObject(this.playerName, amount);
 
         this.moveHitBox();
 
@@ -111,7 +111,7 @@ public class PlayerMovementController {
 
         this.location.setValueY(this.location.getValueY() + amount);
 
-        this.drawingController.addYForOnScreenObject(this.playerName, (int)amount);
+        this.drawingController.addYForOnScreenObject(this.playerName, amount);
 
         this.moveHitBox();
 

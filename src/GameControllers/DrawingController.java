@@ -43,6 +43,16 @@ public class DrawingController {
 
     }
 
+    public void replaceOnScreenObject(String name, int tileIndex){
+
+        this.drawSpace.getChildren().remove(this.getTile(tileIndex));
+
+        this.replaceInHashMap(name, this.getTile(tileIndex));
+
+        this.drawSpace.getChildren().add(this.getFromHashMap(name));
+
+    }
+
     public void addXForOnScreenObject(String name, int amountX){
 
         this.moveOnScreenObject(name,
@@ -116,6 +126,16 @@ public class DrawingController {
         } catch (Exception e) {
 
             System.out.println("Name of the object trying to add is already in use, name: " + key);
+
+        }
+    }
+
+    private void replaceInHashMap(@NotNull String key, Node node){
+        try{
+            this.onScreenObjects.replace(key, node);
+        } catch (Exception e){
+
+            System.out.println("The key trying to replace does not exist in the HashMap, key: " + key);
 
         }
     }
