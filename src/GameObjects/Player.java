@@ -5,6 +5,7 @@ import GameObjects.Map.PlayerMovementController;
 import Interfaces.Updatable;
 import Util.Coordinate;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 
 public class Player extends Npc implements Updatable {
 
@@ -12,6 +13,8 @@ public class Player extends Npc implements Updatable {
 
     private Coordinate location;
     private HealthBar healthBar;
+
+    private Circle hitBox;
 
     private PlayerMovementController playerMovementController;
 
@@ -26,8 +29,9 @@ public class Player extends Npc implements Updatable {
 
         //--------------------------------------------------------------------------------------------------------------
 
-        Circle hitBox = new Circle((gameEngine.getGameMap().getTiles().get(0).getWidth() / 2) - 7);
-        this.playerMovementController = new PlayerMovementController(name, hitBox, gameEngine, this.location);
+        this.hitBox = new Circle((gameEngine.getGameMap().getTiles().get(0).getWidth() / 2) - 7);
+        this.playerMovementController = new PlayerMovementController(name, this.hitBox, gameEngine, this.location);
+
 
     }
 
@@ -40,6 +44,12 @@ public class Player extends Npc implements Updatable {
     public int getAmountOfHealth(){
 
        return this.healthBar.getAmountOfLives();
+
+    }
+
+    public Shape getHitBox() {
+
+        return hitBox;
 
     }
 

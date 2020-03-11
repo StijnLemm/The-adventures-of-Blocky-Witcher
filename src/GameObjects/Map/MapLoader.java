@@ -43,7 +43,7 @@ public class MapLoader {
 
         this.initDistanceMapController();
 
-        this.printBooleanArray(distanceMapController.getDistanceMap(new Coordinate(8, 6)).getMap());
+        this.print2DArray(distanceMapController.getDistanceMap(new Coordinate(8, 6)).getMap());
     }
 
     /**
@@ -104,7 +104,7 @@ public class MapLoader {
         ArrayList<Integer> collisionLayer = null;
 
         for(TileLayer tileLayer: layers){
-            if(!tileLayer.getName().equals("Collision")){
+            if(tileLayer.getName().equals("Collision")){
                 collisionLayer = tileLayer.getTiles();
             }
         }
@@ -164,23 +164,20 @@ public class MapLoader {
     }
 
     //print function for debugging
-    private void printBooleanArray(ArrayList<ArrayList<Integer>> temp){
-
-        for (int i = 0; i < temp.size(); i++) {
-            System.out.println(temp.get(i).size());
-        }
+    private void print2DArray(ArrayList<ArrayList<Integer>> temp){
 
         for (ArrayList<Integer> tempList : temp) {
-//            for(Integer b: tempList){
-//                if(b == null){
-//                    System.out.print("#");
-//                } else{
-//                    System.out.print(b);
-//                }
-//            }
-//            System.out.println();
 
-            System.out.println(tempList);
+            for(int i: tempList) {
+                if (i < 10 && i >= 0) {
+                    System.out.print(i + "  ");
+                } else if(i == -1) {
+                    System.out.print("   ");
+                } else{
+                    System.out.print(i + " ");
+                }
+            }
+            System.out.println();
         }
     }
 }

@@ -5,6 +5,7 @@ import GameObjects.Map.GameMap;
 import GameObjects.HealthBar;
 import GameObjects.Player;
 import Interfaces.Updatable;
+import Items.Key;
 import Util.Coordinate;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,7 +22,7 @@ public class GameEngine {
     // This variable shows the running state of the simulation.
     private Boolean isRunning;
 
-    // This group will have all of the entities.
+    // This group will have all the entities.
     private Pane drawSpace;
 
     private GameMap gameMap;
@@ -40,6 +41,7 @@ public class GameEngine {
 
     private DrawingController drawingController;
 
+    private Player player;
 
     public GameEngine(Stage window) {
 
@@ -49,6 +51,9 @@ public class GameEngine {
 
         this.init();
 
+        Key key = new Key(this, new Coordinate(14, 1), "key1", 81);
+
+        this.dynamicEntities.add(key);
     }
 
     public void init() {
@@ -81,7 +86,7 @@ public class GameEngine {
     }
 
     /**
-     * The animation timer handler will call the update 60 times a second to update all of the entities.
+     * The animation timer handler will call the update 60 times a second to update all the entities.
      */
     public void update() {
 
@@ -99,7 +104,9 @@ public class GameEngine {
 
     public void spawnPlayer() {
 
-        this.dynamicEntities.add(new Player("Player", this.gameMap.getTileLocation(2, 6), this));
+        this.player = new Player("Player", this.gameMap.getTileLocation(2, 6), this);
+
+        this.dynamicEntities.add(this.player);
 
     }
 
@@ -141,10 +148,16 @@ public class GameEngine {
         return healthBar;
     }
 
+    public Player getPlayer(){
+
+        return this.player;
+
+    }
+
     /**
      * To display the simulation you can get the draw space here, this space will be updated (60 times each second).
      *
-     * @return An Group with all of the entities and locations.
+     * @return An Group with all the entities and locations.
      */
     public Pane getDrawSpace() {
 

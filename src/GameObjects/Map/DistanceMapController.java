@@ -37,7 +37,7 @@ public class DistanceMapController {
 
                 distanceMap.addPoint(point.getValueX(), point.getValueY(), counter);
 
-                surroundingNodes.addAll(this.getSurroundingNodes(surroundingNodes, point));
+                surroundingNodes.addAll(this.getSurroundingNodes(surroundingNodes, distanceMap, point));
             }
 
             toCheck = new ArrayList<>(surroundingNodes);
@@ -51,7 +51,7 @@ public class DistanceMapController {
         return distanceMap;
     }
 
-    public ArrayList<Coordinate> getSurroundingNodes(ArrayList<Coordinate> alreadySurroundingNodes, Coordinate point) {
+    public ArrayList<Coordinate> getSurroundingNodes(ArrayList<Coordinate> alreadySurroundingNodes, DistanceMap distanceMap, Coordinate point) {
 
         int x = point.getValueX();
         int y = point.getValueY();
@@ -64,41 +64,41 @@ public class DistanceMapController {
         ArrayList<Coordinate> surroundingAccessibleNodes = new ArrayList<>();
 
         for (Coordinate node : alreadySurroundingNodes) {
-            if (node.getValueY() == y + 1 && node.getValueX() == x) {
+            if (node.getValueY() == y - 1 && node.getValueX() == x) {
                 up = false;
             }
 
-            if (node.getValueY() == y - 1 && node.getValueX() == x) {
+            if (node.getValueY() == y + 1 && node.getValueX() == x ) {
                 under = false;
             }
 
-            if (node.getValueY() == y && node.getValueX() == x + 1) {
+            if (node.getValueY() == y && node.getValueX() == x + 1 ) {
                 right = false;
             }
 
-            if (node.getValueY() == y && node.getValueX() == x - 1) {
+            if (node.getValueY() == y && node.getValueX() == x - 1 ) {
                 left = false;
             }
         }
 
         if (y != 0 && up) {
-            if (this.collisionMap.get(y + 1).get(x)) {
-                surroundingAccessibleNodes.add(new Coordinate(x, y + 1));
-            }
-        }
-        if (y < this.mapHeight && under) {
-            if (this.collisionMap.get(y - 1).get(x)) {
+            if (this.collisionMap.get(y - 1).get(x) && distanceMap.getMap().get(y - 1).get(x) == -1) {
                 surroundingAccessibleNodes.add(new Coordinate(x, y - 1));
             }
         }
-        if (x != 0 && right) {
-            if (this.collisionMap.get(y).get(x + 1)) {
-                surroundingAccessibleNodes.add(new Coordinate(x + 1, y));
+        if (y < this.mapHeight - 1 && under) {
+            if (this.collisionMap.get(y + 1).get(x) && distanceMap.getMap().get(y + 1).get(x) == -1) {
+                surroundingAccessibleNodes.add(new Coordinate(x, y + 1) );
             }
         }
-        if (x < this.mapHeight && left) {
-            if (this.collisionMap.get(y).get(x - 1)) {
-                surroundingAccessibleNodes.add(new Coordinate(x - 1, y));
+        if (x != 0 && left) {
+            if (this.collisionMap.get(y).get(x - 1) && distanceMap.getMap().get(y).get(x - 1) == -1) {
+                surroundingAccessibleNodes.add(new Coordinate(x - 1, y) );
+            }
+        }
+        if (x < this.mapWidth -1 && right) {
+            if (this.collisionMap.get(y).get(x + 1) && distanceMap.getMap().get(y).get(x + 1) == -1) {
+                surroundingAccessibleNodes.add(new Coordinate(x + 1, y));
             }
         }
 

@@ -29,9 +29,9 @@ public class DrawingController {
 
     public void removeOnScreenObject(String name) {
 
-        this.removeFromHashMap(name);
-
         this.drawSpace.getChildren().remove(this.getFromHashMap(name));
+
+        this.removeFromHashMap(name);
 
     }
 

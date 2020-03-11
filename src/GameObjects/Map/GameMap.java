@@ -142,10 +142,6 @@ public class GameMap {
 
             ImageView imageView = new ImageView(tempImage);
 
-//            imageView.setOnMouseEntered((event -> {
-//                this.gameEngine.setCrossHair((int)imageView.getX(), (int)imageView.getY());
-//            })); TODO
-
             imageView.setFitHeight(this.tileHeight * this.SCALE);
             imageView.setFitWidth(this.tileWidth * this.SCALE);
 

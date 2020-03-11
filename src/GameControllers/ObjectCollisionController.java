@@ -20,7 +20,7 @@ public class ObjectCollisionController {
 
         for (Shape object : collisionObjects) {
 
-            if (object.getBoundsInLocal().intersects(hitBox.getBoundsInParent())) {
+            if (object.getBoundsInParent().intersects(hitBox.getBoundsInParent())) {
 
                 this.locationOfCollision = new Coordinate((int)object.getLayoutX(), (int)object.getLayoutY());
 
@@ -30,6 +30,10 @@ public class ObjectCollisionController {
         }
 
         return false;
+    }
+
+    public static boolean isCollidingWith(Shape hitBox1, Shape hitBox2){
+        return hitBox1.getBoundsInLocal().intersects(hitBox2.getBoundsInLocal());
     }
 
     public void addCollisionObject(Shape hitBox){

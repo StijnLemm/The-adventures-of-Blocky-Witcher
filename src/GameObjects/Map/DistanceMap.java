@@ -22,7 +22,7 @@ public class DistanceMap {
     }
 
     public void addPoint(int x, int y, int steps){
-        this.map.get(y).add(x, steps);
+        this.map.get(y).set(x, steps);
     }
 
     public ArrayList<ArrayList<Integer>> getMap() {
@@ -35,7 +35,7 @@ public class DistanceMap {
             this.map.add(new ArrayList<>());
 
             for (int x = 0; x < mapWidth; x++) {
-                this.map.get(y).add(null);
+                this.map.get(y).add(-1);
             }
         }
     }
